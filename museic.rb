@@ -20,7 +20,7 @@ class SequentialSource
   def fetch bytes = 12288
     begin
       if @active.nil? then
-        @pos    = @pos + 1
+        @pos    = (ENV['RANDOM_MUSEIC'] == 'random' ? rand(@paths.length) : @pos + 1)
         @active = @paths[@pos % @paths.length].open('rb')
       end
       got     = @active.read bytes
@@ -46,26 +46,27 @@ class Museic
   end
   
   def run
+    sz  = 49152
     while true
       conn  = @conns.pop
       @conns << conn
       src   = 0
       while true
-        if @dests.empty? then
-          break if @conns.empty?
-        end
-        @dests  <<  @conns.pop unless @conns.empty?
         rez = []
-        @dests.each do |dest|
-          begin
-            sz  = 49152
-            dat = @srcs[src % @srcs.length].fetch(sz)
-            dest.write(dat)
-            src = src + 1 if dat.length < sz
-            rez << dest
-          rescue Errno::EPIPE => e
-            $stderr.puts e.inspect, *e.backtrace
+        begin
+          if @dests.empty? then
+            break if @conns.empty?
           end
+          @dests  <<  @conns.pop unless @conns.empty?
+          cursrc  = @srcs[src % @srcs.length]
+          dat = @srcs[src % @srcs.length].fetch(sz)
+          @dests.each do |dest|
+            dest.write(dat)
+            rez << dest
+          end
+          src = src + 1 if dat.length < sz
+        rescue Exception => e
+          $stderr.puts e.inspect, *e.backtrace
         end
         @dests  = rez
       end
