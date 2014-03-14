@@ -31,7 +31,7 @@ class SequentialSource
       got
     end
   rescue Exception => e
-    $stderr.puts e.inspect, *e.backtrace
+    # $stderr.puts e.inspect, *e.backtrace
   end
 end
 
@@ -39,12 +39,18 @@ class Museic
   def initialize m3us
     @conns  = Queue.new
     @dests  = []
-    @srcs   = m3us.map {|m| SequentialSource.new(m)}
+    @mapper = {}
+    @srcs   = m3us.map.with_index do |m, mix|
+      pn  = Pathname.new m
+      nom = pn.basename.to_s.gsub(/\.m3u$/, '')
+      @mapper[nom] = mix
+      SequentialSource.new(m)
+    end
     Thread.new do
       self.run
     end
   end
-  
+
   def run
     sz  = 49152
     while true
@@ -66,7 +72,7 @@ class Museic
           end
           src = src + 1 if dat.length < sz
         rescue Exception => e
-          $stderr.puts e.inspect, *e.backtrace
+          # $stderr.puts e.inspect, *e.backtrace
         end
         @dests  = rez
       end
@@ -76,10 +82,28 @@ class Museic
   def include! conn
     conn.write %[HTTP/1.1 200 OK
 Connection: close
-Content-Type: application/octet-stream
+Content-Type: audio/mpeg
 
 ]
     @conns << conn
+  end
+end
+
+class MuseicReq
+  attr_reader :uri
+  def initialize conn
+    @conn = conn
+    fill_out!
+  end
+
+  def method_missing meth, *args
+    @conn.method(meth).call *args
+  end
+
+  private
+  def fill_out!
+    req           = @conn.gets
+    mth, @uri, _  = req.strip.split(' ', 3)
   end
 end
 
