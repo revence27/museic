@@ -4,6 +4,36 @@ require 'pathname'
 require 'socket'
 require 'thread'
 
+BURST_SIZE = 128000
+BURST_RATE = 1
+
+class ManagedConnection
+  def initialize conn
+    @conn   = conn
+    @bucket = Queue.new
+    @thd    = Thread.new {broadcast!}
+  end
+  
+  def write dat
+    @bucket << dat if @bucket.size < 10
+  end
+
+  def close
+    @thd.kill
+  end
+
+  private
+  def broadcast!
+    begin
+      while true
+        @conn.write @bucket.pop
+      end
+    rescue Exception => e
+      $stderr.puts e.inspect, *e.backtrace
+    end
+  end
+end
+
 class SequentialSource
   def initialize m3u
     @paths  = Pathname.new(m3u).open 'r' do |fch|
@@ -17,10 +47,16 @@ class SequentialSource
     @active = nil
   end
 
+  def path
+    @paths[@pos]
+  end
+
   def fetch bytes = 12288
     begin
       if @active.nil? then
-        @pos    = (ENV['RANDOM_MUSEIC'] == 'random' ? rand(@paths.length) : @pos + 1)
+        @pos    = (ENV['RANDOM_MUSEIC'] == 'not' ? @pos + 1 : rand(@paths.length))
+        padding = '  '
+        $stderr.print(%[\r #{Pathname.new(self.path).basename.to_s[0 .. -5].gsub('_', ' ').gsub(/^\d+/, '').strip}#{padding * 20}\r])
         @active = @paths[@pos % @paths.length].open('rb')
       end
       got     = @active.read bytes
@@ -31,7 +67,7 @@ class SequentialSource
       got
     end
   rescue Exception => e
-    # $stderr.puts e.inspect, *e.backtrace
+    $stderr.puts e.inspect, *e.backtrace
   end
 end
 
@@ -52,13 +88,15 @@ class Museic
   end
 
   def run
-    sz  = 49152
+    sz  = BURST_SIZE
+    cpt = BURST_RATE
     while true
       conn  = @conns.pop
       @conns << conn
       src   = 0
       while true
-        rez = []
+        rez   = []
+        tthen = Time.now
         begin
           if @dests.empty? then
             break if @conns.empty?
@@ -72,9 +110,11 @@ class Museic
           end
           src = src + 1 if dat.length < sz
         rescue Exception => e
-          # $stderr.puts e.inspect, *e.backtrace
+          $stderr.puts e.inspect, *e.backtrace
         end
         @dests  = rez
+        tnow  = Time.now
+        # sleep(cpt - (tnow - tthen))
       end
     end
   end
@@ -85,6 +125,7 @@ Connection: close
 Content-Type: audio/mpeg
 
 ]
+    # @conns << ManagedConnection.new(conn)
     @conns << conn
   end
 end
