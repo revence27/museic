@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title Muse-ic
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    #main
+      #header
+        .nom
+          Muse-ic
+        .tagline
+          Manden Marabout-kan
+      #trunk
+        = yield
+      #footer
+        &copy; 2014, <a href="http://www.1st.ug/">Scyfy Technologies</a>. All Rights Reserved.

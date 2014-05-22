@@ -1,0 +1,70 @@
+// Place all the styles related to the museic controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import url('http://fonts.googleapis.com/css?family=Cutive+Mono|Lora:400,700,400italic,700italic|Poiret+One|Abril+Fatface|Audiowide');
+
+$f1: "Lora";
+$f2: "Audiowide", $f1;
+$f3: "Cutive Mono", $f2;
+$f4: "Poiret One", $f3;
+$f5: "Abril Fatface", $f4;
+
+$col1: rgb(0, 0, 0);
+$col2: rgba(182, 59, 50, 0.5);
+$col3: rgba(28, 43, 124, 0.7);
+
+$shadow_offset: -0.125em;
+$shadow_scatter: 0.125em;
+$shadow_colour: lighten($col1, 40%);
+
+body
+{
+  font-size: 10pt;
+  color: $col1;
+  font-family: $f1;
+
+  h1, h2, h3, h4, h5, h6
+  {
+    font-family: $f5;
+    text-align: center;
+  }
+
+  #main
+  {
+    #header
+    {
+      text-align: right;
+
+      .nom
+      {
+        font-family: $f2;
+        font-size: 500%;
+        text-shadow: $shadow_offset $shadow_offset $shadow_scatter $shadow_colour;
+        color: $col2;
+      }
+
+      .tagline
+      {
+        font-family: $f3;
+        font-size: 200%;
+        color: $col3;
+      }
+    }
+
+    #trunk
+    {
+      font-size: 15pt;
+      width: 50%;
+      margin-left: 25%;
+    }
+
+    #footer
+    {
+      text-align: center;
+      font-size: 70%;
+      font-weight: bold;
+      font-family: $f4;
+    }
+  }
+}

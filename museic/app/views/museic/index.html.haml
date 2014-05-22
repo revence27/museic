@@ -1,0 +1,13 @@
+%h1
+  = @plays.count
+  Latest Plays
+%table
+  %thead
+    %tr
+      %th Song
+      %th When
+  %tbody
+    - @plays.each do |play|
+      %tr
+        %td=  play.path.split('/').last
+        %td=  time_ago_in_words play.recent.localtime

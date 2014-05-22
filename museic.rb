@@ -3,6 +3,7 @@
 require 'pathname'
 require 'socket'
 require 'thread'
+require 'pg'
 
 BURST_SIZE = 128000
 BURST_RATE = 1
@@ -36,6 +37,7 @@ end
 
 class SequentialSource
   def initialize m3u
+    @db     = PGconn.connect(dbname: 'museic', user: 'museic')
     @paths  = Pathname.new(m3u).open 'r' do |fch|
       ans = []
       fch.each_line do |ligne|
@@ -57,7 +59,13 @@ class SequentialSource
         @pos    = (ENV['RANDOM_MUSEIC'] == 'not' ? @pos + 1 : rand(@paths.length))
         padding = '  '
         $stderr.print(%[\r #{Pathname.new(self.path).basename.to_s[0 .. -5].gsub('_', ' ').gsub(/^\d+/, '').strip}#{padding * 20}\r])
-        @active = @paths[@pos % @paths.length].open('rb')
+        thepath = @paths[@pos % @paths.length]
+        dem     = @db.exec_params('SELECT TRUE FROM plays WHERE path = $1', [thepath]).values()
+        if dem.length > 0 then
+          @db.exec_params('UPDATE plays SET recent = NOW() WHERE path = $1', [thepath])
+        end
+        @db.exec_params('INSERT INTO plays (path, recent) VALUES ($1, NOW())', [thepath])
+        @active = thepath.open('rb')
       end
       got     = @active.read bytes
       if got.length < bytes then
