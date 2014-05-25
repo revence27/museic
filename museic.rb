@@ -70,7 +70,7 @@ class SequentialSource
     secs    = 0
     begin
       Mp3Info.open thepath do |mi|
-        tag = {title: mi.tag.title, artist: mi.tag.artist, album: mi.tag.album, year: mi.tag.year}
+        tag = {title: mi.tag.title || tag[:title], artist: mi.tag.artist || tag[:artist], album: mi.tag.album || tag[:album], year: mi.tag.year || tag[:year]}
         mi.tag2.pictures.each do |desc, dat|
           pic_ct  ||= {'jpg' => 'image/jpeg', 'png' => 'image/png'}[desc.force_encoding('UTF-8').split('.').last.downcase]
           if pic_ct then
