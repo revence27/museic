@@ -112,6 +112,10 @@ class SequentialSource
         $stderr.print(%[\r #{Pathname.new(self.path).basename.to_s[0 .. -5].gsub('_', ' ').gsub(/^\d+/, '').strip}#{padding * 20}\r])
         thepath = @paths[@pos % @paths.length]
         got     = MuseicSong.where('path = ?', thepath.to_s).first
+        if got and (thepath.mtime > got.created_at) then
+          got.delete
+          got = nil
+        end
         if not got then
           got = fix thepath.to_s
         end
