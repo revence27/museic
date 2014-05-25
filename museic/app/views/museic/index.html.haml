@@ -1,13 +1,36 @@
 %h1
   = @plays.count
   Latest Plays
-%table
-  %thead
+%table.songlist
+  / %thead
+  /
     %tr
       %th Song
       %th When
   %tbody
     - @plays.each do |play|
       %tr
-        %td=  play.path.split('/').last
-        %td=  time_ago_in_words play.recent.localtime
+        %td.first
+          .art
+            - if play.sleeve_ct then
+              %img{src: %[data:#{play.sleeve_ct};base64,#{[play.sleeve].pack('m')}]}/
+            - else
+              .missing
+                No album art.
+        %td.second
+          - # artist, album
+          %strong.title
+            =  play.title
+            .runtime
+              = play.seconds.divmod(60).map {|x| %[00000#{x}][-2 .. -1]}.join(':')
+          .time
+            =  time_ago_in_words play.last_play.localtime
+            ago
+          .autres
+            .artist
+              = play.artist
+            .album
+              = play.album
+              - if play.year > 1900 then
+                .albumyear
+                  = play.year

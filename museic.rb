@@ -1,12 +1,21 @@
 #!  /usr/bin/env ruby
+# charset: utf-8
+# encoding: utf-8
 
 require 'pathname'
 require 'socket'
 require 'thread'
-require 'pg'
+require 'active_record'
+require 'mp3info'
+require 'taglib'
 
 BURST_SIZE = 128000
 BURST_RATE = 1
+
+Encoding.default_external = 'UTF-8'
+
+class MuseicSong < ActiveRecord::Base
+end
 
 class ManagedConnection
   def initialize conn
@@ -37,7 +46,8 @@ end
 
 class SequentialSource
   def initialize m3u
-    @db     = PGconn.connect(dbname: 'museic', user: 'museic')
+    # @db     = PGconn.connect(dbname: 'museic', user: 'museic')
+    @db     = ActiveRecord::Base.establish_connection(adapter: 'postgresql', database: 'museic', user: 'museic')
     @paths  = Pathname.new(m3u).open 'r' do |fch|
       ans = []
       fch.each_line do |ligne|
@@ -53,6 +63,47 @@ class SequentialSource
     @paths[@pos]
   end
 
+  def fix thepath
+    tag     = {title: thepath.split('/').last.split('.')[0 .. -2].join('.').force_encoding('UTF-8'), artist: 'Unidentified Artist', album: 'Unidentified Album', year: 0}
+    pic_ct  = nil
+    pic     = nil
+    secs    = 0
+    begin
+      Mp3Info.open thepath do |mi|
+        tag = {title: mi.tag.title, artist: mi.tag.artist, album: mi.tag.album, year: mi.tag.year}
+        mi.tag2.pictures.each do |desc, dat|
+          pic_ct  ||= {'jpg' => 'image/jpeg', 'png' => 'image/png'}[desc.force_encoding('UTF-8').split('.').last.downcase]
+          if pic_ct then
+            pic ||= dat.force_encoding('UTF-8')
+          end
+        end
+      end
+    rescue Exception => e
+      # Ignore for now.
+    end
+    begin
+      TagLib::FileRef.open thepath do |tf|
+        unless tf.null? then
+          secs  = (tf.audio_properties.length rescue secs).to_i
+        end
+      end
+    rescue Exception => e
+      # Ignore for now.
+    end
+    newsong = MuseicSong.new(
+      path:       thepath.force_encoding('UTF-8'),
+      last_play:  Time.now,
+      title:      tag[:title].force_encoding('UTF-8'),
+      artist:     tag[:artist].force_encoding('UTF-8'),
+      album:      tag[:album].force_encoding('UTF-8'),
+      year:       tag[:year].to_i,
+      sleeve:     pic,
+      sleeve_ct:  pic_ct,
+      seconds:    secs)
+    newsong.save
+    newsong
+  end
+
   def fetch bytes = 12288
     begin
       if @active.nil? then
@@ -60,11 +111,12 @@ class SequentialSource
         padding = '  '
         $stderr.print(%[\r #{Pathname.new(self.path).basename.to_s[0 .. -5].gsub('_', ' ').gsub(/^\d+/, '').strip}#{padding * 20}\r])
         thepath = @paths[@pos % @paths.length]
-        dem     = @db.exec_params('SELECT TRUE FROM plays WHERE path = $1', [thepath]).values()
-        if dem.length > 0 then
-          @db.exec_params('UPDATE plays SET recent = NOW() WHERE path = $1', [thepath])
+        got     = MuseicSong.where('path = ?', thepath.to_s).first
+        if not got then
+          got = fix thepath.to_s
         end
-        @db.exec_params('INSERT INTO plays (path, recent) VALUES ($1, NOW())', [thepath])
+        got.last_play = Time.now
+        got.save
         @active = thepath.open('rb')
       end
       got     = @active.read bytes
@@ -117,8 +169,8 @@ class Museic
             rez << dest
           end
           src = src + 1 if dat.length < sz
-        rescue Exception => e
-          $stderr.puts e.inspect, *e.backtrace
+        rescue Errno::EPIPE => e
+          # $stderr.puts e.inspect, *e.backtrace
         end
         @dests  = rez
         tnow  = Time.now
