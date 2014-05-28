@@ -63,6 +63,18 @@ class SequentialSource
     @paths[@pos]
   end
 
+  def pull_raw_pic bin
+    return [nil, nil] unless bin
+    magick  = bin[0, 6]
+    if magick == "\x00JPG\x00\x00" then
+      ['image/jpeg', bin[6 .. -1]]
+    elsif magick == "\x00PNG\x00\x00" then
+      ['image/png', bin[6 .. -1]]
+    else
+      ['application/octet-stream', bin[6 .. -1]]
+    end
+  end
+
   def fix thepath
     tag     = {title: thepath.split('/').last.split('.')[0 .. -2].join('.').force_encoding('UTF-8'), artist: 'Unidentified Artist', album: 'Unidentified Album', year: 0}
     pic_ct  = nil
@@ -71,15 +83,22 @@ class SequentialSource
     begin
       Mp3Info.open thepath do |mi|
         tag = {title: mi.tag.title || tag[:title], artist: mi.tag.artist || tag[:artist], album: mi.tag.album || tag[:album], year: mi.tag.year || tag[:year]}
-        mi.tag2.pictures.each do |desc, dat|
-          pic_ct  ||= {'jpg' => 'image/jpeg', 'png' => 'image/png'}[desc.force_encoding('UTF-8').split('.').last.downcase]
-          if pic_ct then
-            pic ||= dat.force_encoding('UTF-8')
+        thepics = mi.tag2.pictures
+        unless thepics.length.zero? then
+          thepics.each do |desc, dat|
+            pic_ct  ||= {'jpg' => 'image/jpeg', 'png' => 'image/png'}[desc.force_encoding('UTF-8').split('.').last.downcase]
+            if pic_ct then
+              pic ||= dat.force_encoding('UTF-8')
+            end
           end
+        else
+          itsies  = pull_raw_pic mi.tag2.PIC
+          pic_ct  ||= itsies[0]
+          pic     ||= itsies[1]
         end
       end
     rescue Exception => e
-      # Ignore for now.
+      $stderr.puts e.inspect, *e.backtrace
     end
     begin
       TagLib::FileRef.open thepath do |tf|

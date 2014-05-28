@@ -1,3 +1,8 @@
 #!  /bin/sh
 # ruby /Users/revence/Documents/Hacks/muse-ic/museic.rb 8888 /Users/revence/Desktop/Misc/Muze/playlist.m3u /Users/revence/Desktop/Misc/Luganda/playlist.m3u /Users/revence/Desktop/Misc/Muze/much-music.m3u
-ruby /Users/revence/Documents/Hacks/muse-ic/museic.rb 8888 /Users/revence/Desktop/Misc/Muze/playlist.m3u /Users/revence/Desktop/Misc/Luganda/playlist.m3u /Users/revence/Desktop/Misc/Muze/much-music.m3u
+ELDIR=/Users/revence/Documents/Hacks/muse-ic
+MUDIR=/Users/revence/Desktop/Misc
+
+$ELDIR/museic/bin/rails s -d
+# ruby $ELDIR/museic.rb 8888 $MUDIR/Muze/playlist.m3u $MUDIR/Luganda/playlist.m3u $MUDIR/Muze/newplay.m3u
+ruby $ELDIR/museic.rb 8888 $MUDIR/Muze/newplay.m3u $MUDIR/Luganda/playlist.m3u $MUDIR/Muze/newplay.m3u
