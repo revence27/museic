@@ -7,13 +7,13 @@
       %tr
         %td.first
           .art
-            - if play.sleeve_ct then
-              %img{src: %[data:#{play.sleeve_ct};base64,#{[play.sleeve].pack('m')}]}/
+            - if play.sleeve_sha1 then
+              - # %img{src: %[data:#{play.sleeve_ct};base64,#{[play.sleeve].pack('m')}]}/
+              %img{alt: play.album, src: art_path(sha: play.sleeve_sha1)}/
             - else
               .missing
                 No album art.
         %td.second
-          - # artist, album
           %strong.title
             =  play.title.gsub(/^B\d\d___(\d\d)_(\d)?([^_]+).+$/i, '\2 \3 \1')
             .runtime

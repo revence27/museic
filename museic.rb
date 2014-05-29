@@ -14,6 +14,8 @@ BURST_RATE = 1
 
 Encoding.default_external = 'UTF-8'
 
+class AlbumArt < ActiveRecord::Base
+end
 class MuseicSong < ActiveRecord::Base
 end
 
@@ -75,6 +77,17 @@ class SequentialSource
     end
   end
 
+  def sha1ed_image pic, pic_ct
+    if pic then
+      ss    = (Digest::SHA1.new << pic).to_s
+      falb  = AlbumArt.where('sha1_sig = ?', [ss]).first
+      AlbumArt.new(sha1_sig: ss, content_type: pic_ct, rawdata: pic).save unless falb
+      ss
+    else
+      nil
+    end
+  end
+
   def fix thepath
     tag     = {title: thepath.split('/').last.split('.')[0 .. -2].join('.').force_encoding('UTF-8'), artist: 'Unidentified Artist', album: 'Unidentified Album', year: 0}
     pic_ct  = nil
@@ -127,16 +140,18 @@ class SequentialSource
     rescue Exception => e
       # Ignore for now.
     end
+    slvsha  = sha1ed_image pic, pic_ct
     newsong = MuseicSong.new(
-      path:       thepath.force_encoding('UTF-8'),
-      last_play:  Time.now,
-      title:      tag[:title].force_encoding('UTF-8'),
-      artist:     tag[:artist].force_encoding('UTF-8'),
-      album:      tag[:album].force_encoding('UTF-8'),
-      year:       tag[:year].to_i,
-      sleeve:     pic,
-      sleeve_ct:  pic_ct,
-      seconds:    secs)
+      path:         thepath.force_encoding('UTF-8'),
+      last_play:    Time.now,
+      title:        tag[:title].force_encoding('UTF-8'),
+      artist:       tag[:artist].force_encoding('UTF-8'),
+      album:        tag[:album].force_encoding('UTF-8'),
+      year:         tag[:year].to_i,
+      sleeve_sha1:  slvsha,
+      # sleeve:     pic,
+      # sleeve_ct:  pic_ct,
+      seconds:      secs)
     newsong.save
     newsong
   end

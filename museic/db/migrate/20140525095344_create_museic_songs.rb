@@ -5,8 +5,7 @@ class CreateMuseicSongs < ActiveRecord::Migration
       t.text          :title
       t.text          :artist
       t.text          :album
-      t.text          :sleeve_ct
-      t.binary        :sleeve
+      t.text          :sleeve_sha1
       t.integer       :seconds
       t.integer       :year
       t.timestamp     :last_play

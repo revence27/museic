@@ -1,5 +1,6 @@
 Museic::Application.routes.draw do
   root 'museic#index'
+  get 'art/:sha' => 'museic#dloader', as: 'art'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -11,18 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525095344) do
+ActiveRecord::Schema.define(version: 20140529133455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "album_arts", force: true do |t|
+    t.text     "sha1_sig"
+    t.text     "content_type"
+    t.binary   "rawdata"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "museic_songs", force: true do |t|
     t.text     "path"
     t.text     "title"
     t.text     "artist"
     t.text     "album"
-    t.text     "sleeve_ct"
-    t.binary   "sleeve"
+    t.text     "sleeve_sha1"
     t.integer  "seconds"
     t.integer  "year"
     t.datetime "last_play"
