@@ -2,11 +2,6 @@
   = @plays.count
   Latest Tracks
 %table.songlist
-  / %thead
-  /
-    %tr
-      %th Song
-      %th When
   %tbody
     - @plays.each do |play|
       %tr
@@ -20,7 +15,7 @@
         %td.second
           - # artist, album
           %strong.title
-            =  play.title
+            =  play.title.gsub(/^B\d\d___(\d\d)_(\d)?([^_]+).+$/i, '\2 \3 \1')
             .runtime
               = play.seconds.divmod(60).map {|x| %[00000#{x}][-2 .. -1]}.join(':')
           .time

@@ -145,8 +145,6 @@ class SequentialSource
     begin
       if @active.nil? then
         @pos    = (ENV['RANDOM_MUSEIC'] == 'not' ? @pos + 1 : rand(@paths.length))
-        padding = '  '
-        $stderr.print(%[\r #{Pathname.new(self.path).basename.to_s[0 .. -5].gsub('_', ' ').gsub(/^\d+/, '').strip}#{padding * 20}\r])
         thepath = @paths[@pos % @paths.length]
         got     = MuseicSong.where('path = ?', thepath.to_s).first
         if got and (thepath.mtime > got.created_at) then
@@ -159,6 +157,8 @@ class SequentialSource
         got.last_play = Time.now
         got.save
         @active = thepath.open('rb')
+        $stderr.print((%[#{got.title.gsub(/^B\d\d___(\d\d)_(\d)?([^_]+).+$/i, '\2 \3 \1')} [#{got.seconds.divmod(60).map {|x| %[00000#{x}][-2 .. -1]}.join(':')}] #{got.artist} (#{got.album})] + %[#{'  ' * 20}])[0, 78] + "\r")
+        $stderr.flush
       end
       got     = @active.read bytes
       if got.length < bytes then
