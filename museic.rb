@@ -83,7 +83,25 @@ class SequentialSource
     begin
       Mp3Info.open thepath do |mi|
         tag = {title: mi.tag.title || tag[:title], artist: mi.tag.artist || tag[:artist], album: mi.tag.album || tag[:album], year: mi.tag.year || tag[:year]}
-        thepics = mi.tag2.pictures
+        thepics =
+          begin
+            mi.tag2.pictures
+          rescue Exception => e
+            apix  = mi.tag2.APIC
+            if apix.length > 1 then
+              fst       = apix.sort.first
+              if fst =~ /image\/jpeg/ then
+                [['1_.jpg', fst[14 .. -1]]]
+              elsif fst =~ /image\/jpg/ then
+                [['1_.jpg', fst[13 .. -1]]]
+              else
+                [['1_.png', fst[13 .. -1]]]
+              end
+            else
+              $stderr.puts "\nWhat image tags are in #{thepath}?"
+              []
+            end
+          end
         unless thepics.length.zero? then
           thepics.each do |desc, dat|
             pic_ct  ||= {'jpg' => 'image/jpeg', 'png' => 'image/png'}[desc.force_encoding('UTF-8').split('.').last.downcase]

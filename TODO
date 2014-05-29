@@ -1,2 +1,6 @@
 1.  Select source by URL?
 2.  Text accompaniment.
+3.  Images are hashed and URL'd in.
+4.  Player on the page.
+5.  Rate-limit with kernel.
+6.  Pull architecture for streaming; not push.
