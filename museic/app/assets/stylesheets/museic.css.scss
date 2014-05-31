@@ -94,6 +94,8 @@ body
 
         tbody
         {
+          counter-reset: plays;
+
           tr
           {
             margin-bottom: 5em;
@@ -137,6 +139,7 @@ body
                 text-align: left;
                 padding-left: 1em;
                 font-size: 120%;
+                counter-increment: plays;
 
                 .title
                 {
@@ -216,6 +219,21 @@ body
                       color: lighten($col1, 50%); 
                     }
                   }
+                }
+
+                &:before
+                {
+                  position: absolute;
+                  font-size: 200%;
+                  font-weight: bolder;
+                  font-style: italic;
+                  font-family: $f4;
+                  z-index: -1;
+                  vertical-align: bottom;
+                  width: 50%;
+                  text-align: right;
+                  color: $plainwhite;
+                  content: counter(plays);
                 }
               }
             }

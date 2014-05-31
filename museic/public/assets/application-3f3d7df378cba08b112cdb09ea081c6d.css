@@ -1,0 +1,211 @@
+@charset "UTF-8";/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+
+
+ */
+
+
+@import url("http://fonts.googleapis.com/css?family=Cabin|Audiowide|Cuprum|Fjalla+One|Play&subset=latin,latin-ext");
+/* line 27, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body {
+  font-size: 10pt;
+  color: black;
+  font-family: "Play";
+  background: url("/kora.jpg") fixed center no-repeat;
+}
+/* line 35, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body sup {
+  font-size: 70%;
+}
+/* line 40, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body h1, body h2, body h3, body h4, body h5, body h6 {
+  font-family: "Fjalla One", "Cabin", "Cuprum", "Audiowide", "Play";
+  text-align: center;
+}
+/* line 46, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 3em 3em 3em 3em;
+}
+/* line 51, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #header {
+  text-align: right;
+  padding-right: 4em;
+}
+/* line 56, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #header .nom {
+  font-family: "Audiowide", "Play";
+  font-size: 500%;
+  text-shadow: -0.1em -0.1em 0.125em #666666;
+  color: rgba(182, 59, 50, 0.5);
+}
+/* line 64, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #header .tagline {
+  font-family: "Cuprum", "Audiowide", "Play";
+  font-size: 150%;
+  color: rgba(28, 43, 124, 0.7);
+}
+/* line 72, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk {
+  font-size: 15pt;
+  width: 50%;
+  margin-left: 25%;
+  text-align: center;
+}
+/* line 79, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk #propaganda {
+  font-family: "Cabin", "Cuprum", "Audiowide", "Play";
+  text-align: justify;
+  font-size: 75%;
+  column-count: 2;
+  padding: 1em;
+  margin-top: 1em;
+  border: white solid 2px;
+  border-radius: 5px 5px 5px 5px;
+}
+/* line 91, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist {
+  width: 100%;
+  font: inherit;
+}
+/* line 96, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody {
+  counter-reset: plays;
+}
+/* line 100, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr {
+  margin-bottom: 5em;
+}
+/* line 104, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td {
+  vertical-align: top;
+}
+/* line 108, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.first {
+  width: 25%;
+  text-align: right;
+}
+/* line 115, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.first .art img, body #main #trunk table.songlist tbody tr td.first .art .missing {
+  width: 100%;
+  box-shadow: 5px 5px 5px #666666;
+  border-bottom: solid 1px black;
+  border-right: solid 1px black;
+  border-top: solid 1px white;
+  border-left: solid 1px white;
+}
+/* line 125, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.first .art .missing {
+  height: 8em;
+  vertical-align: middle;
+  text-align: center;
+  color: white;
+  text-shadow: 0px 0px 1px #666666;
+  background: white;
+}
+/* line 137, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second {
+  width: 75%;
+  text-align: left;
+  padding-left: 1em;
+  font-size: 120%;
+  counter-increment: plays;
+}
+/* line 145, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .title {
+  font-family: "Fjalla One", "Cabin", "Cuprum", "Audiowide", "Play";
+  font-size: 120%;
+  text-shadow: 2px 2px 3px #666666;
+}
+/* line 151, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .title .runtime {
+  display: inline;
+  font-size: 50%;
+  font-family: "Cuprum", "Audiowide", "Play";
+  vertical-align: sub;
+  color: #1c2b7c;
+}
+/* line 162, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .time {
+  font-size: 75%;
+  font-family: "Cabin", "Cuprum", "Audiowide", "Play";
+  color: #b63b32;
+}
+/* line 168, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .time:before {
+  content: "♪ ";
+  color: #1c2b7c;
+}
+/* line 176, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .autres {
+  font-family: "Play";
+  font-size: 90%;
+  padding: 1em;
+  color: black;
+}
+/* line 183, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .autres .artist {
+  font-weight: bold;
+}
+/* line 187, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .autres .artist:before {
+  content: "Artist: ";
+  font-size: 50%;
+  padding-right: 1em;
+  width: 1cm;
+  color: gray;
+}
+/* line 197, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .autres .album {
+  font-size: 90%;
+}
+/* line 201, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .autres .album .albumyear {
+  display: inline;
+  vertical-align: middle;
+  padding-left: 1em;
+  font-size: 60%;
+  font-family: "Cabin", "Cuprum", "Audiowide", "Play";
+  color: #1c2b7c;
+}
+/* line 214, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second .autres .album:before {
+  content: "Album: ";
+  font-size: 50%;
+  padding-right: 1em;
+  width: 1cm;
+  color: gray;
+}
+/* line 225, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #trunk table.songlist tbody tr td.second:before {
+  position: absolute;
+  font-size: 200%;
+  font-weight: bolder;
+  font-style: italic;
+  font-family: "Cabin", "Cuprum", "Audiowide", "Play";
+  z-index: -1;
+  vertical-align: bottom;
+  width: 50%;
+  text-align: right;
+  color: white;
+  content: counter(plays);
+}
+/* line 246, /Users/revence/Documents/Hacks/muse-ic/museic/app/assets/stylesheets/museic.css.scss */
+body #main #footer {
+  padding-top: 5em;
+  padding-bottom: 2em;
+  padding-left: 30%;
+  padding-right: 30%;
+  text-align: center;
+  font-size: 70%;
+  font-weight: bold;
+  font-family: "Cabin", "Cuprum", "Audiowide", "Play";
+}
