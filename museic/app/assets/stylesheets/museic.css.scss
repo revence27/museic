@@ -14,6 +14,7 @@ $f5: "Fjalla One", "Alegreya Sans SC", $f4;
 $col1:        rgb(0, 0, 0);
 $col2orig:    rgb(182, 59, 50);
 $col2:        rgba(182, 59, 50, 0.5);
+$light2:      lighten($col2, 50%);
 $col3orig:    rgb(28, 43, 124);
 $col3:        rgba(28, 43, 124, 0.7);
 $tomoe_river: rgba(255, 255, 255, 0.8);
@@ -105,11 +106,16 @@ body
           {
             margin-bottom: 5em;
 
+            &.active
+            {
+              margin-bottom: 2em;
+            }
+
             td
             {
               vertical-align: top;
 
-              &.first
+              &.first, &.current
               {
                 width: 25%;
                 text-align: right;
@@ -138,7 +144,7 @@ body
                 }
               }
 
-              &.second
+              &.second, &.playing
               {
                 width: 75%;
                 text-align: left;
@@ -149,7 +155,7 @@ body
                 .title
                 {
                   font-family: $f5;
-                  font-size: 120%;
+                  font-size: 110%;
                   text-shadow: 2px 2px 3px $shadow_colour;
 
                   .runtime
@@ -183,6 +189,118 @@ body
                   font-size: 90%;
                   padding: 1em;
                   color: $col1;
+
+                  .artist
+                  {
+                    font-weight: bold;
+
+                    &:before
+                    {
+                      content: "Artist: ";
+                      font-size: 50%;
+                      padding-right: 1em;
+                      width: 1cm;
+                      color: lighten($col1, 50%); 
+                    }
+                  }
+
+                  .album
+                  {
+                    font-size: 90%;
+
+                    .albumyear
+                    {
+                      display: inline;
+                      vertical-align: middle;
+                      padding-left: 1em;
+                      font-size: 60%;
+                      font-family: $f4;
+                      color: $col3orig;
+                    }
+                  }
+
+                  .copywrong
+                  {
+                    font-size: 70%;
+                  }
+
+                  .album
+                  {
+                    &:before
+                    {
+                      content: "Album: ";
+                      font-size: 50%;
+                      padding-right: 1em;
+                      width: 1cm;
+                      color: lighten($col1, 50%); 
+                    }
+                  }
+                }
+
+                &:before
+                {
+                  position: absolute;
+                  font-size: 200%;
+                  font-weight: bolder;
+                  font-style: italic;
+                  font-family: $f4;
+                  z-index: -1;
+                  vertical-align: bottom;
+                  width: 50%;
+                  text-align: right;
+                  color: $plainwhite;
+                  content: counter(plays);
+                }
+              }
+
+              &.playing
+              {
+                text-align: center;
+                padding: 0px;
+                font-size: 160%;
+                counter-increment: plays;
+                background: linear-gradient(to bottom, $glass, $col2, $light2, $light2, $light2, $seethru, $glass, $glass, rgba(255, 255, 255, 0.0));
+
+                .title
+                {
+                  font-family: $f5;
+                  font-size: 120%;
+                  text-shadow: 2px 2px 3px $tomoe_river;
+                  color: $col2orig;
+
+                  .runtime
+                  {
+                    display: inline;
+                    //  float: right;
+                    font-size: 50%;
+                    font-family: $f3;
+                    vertical-align: sub;
+                    color: $plainwhite;
+                  }
+                }
+
+                .time
+                {
+                  font-size: 75%;
+                  font-family: $f4;
+                  color: $shadow_colour;
+                  font-variant: small-caps;
+
+                  &:before
+                  {
+                    //  content: "♫ ";
+                    //  content: "♪ ";
+                    content: "▷ ";
+                    color: $col3orig;
+                  }
+                }
+
+                .autres
+                {
+                  font-family: $f1;
+                  font-size: 90%;
+                  padding: 1em;
+                  color: $col3orig;
 
                   .artist
                   {

@@ -4,8 +4,9 @@
 %table.songlist
   %tbody
     - @plays.each_with_index do |play, plix|
-      %tr
-        %td.first
+      - playing = (plix.zero? && ((play.last_play + play.seconds + 10.seconds) >= Time.now))
+      %tr{'class' => (playing ? 'active' : 'past')}
+        %td{'class' => (playing ? 'current' : 'first')}
           .art
             - if play.sleeve_sha1 then
               - # %img{src: %[data:#{play.sleeve_ct};base64,#{[play.sleeve].pack('m')}]}/
@@ -13,14 +14,14 @@
             - else
               .missing
                 No album art.
-        %td.second
+        %td{'class' => (playing ? 'playing' : 'second')}
           %strong.title
             =  play.title.gsub(/^B\d\d___(\d\d)_(\d)?([^_]+).+$/i, '\2 \3 \1')
             .runtime
               = play.seconds.divmod(60).map {|x| %[00000#{x}][-2 .. -1]}.join(':')
           .time
-            - if plix.zero? then
-              ▷ Now playing
+            - if playing then
+              Now playing
             - else
               =  time_ago_in_words play.last_play.localtime
               ago
