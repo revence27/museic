@@ -124,7 +124,8 @@ body
                 {
                   img, .missing
                   {
-                    width: 100%;
+                    width: 80%;
+                    margin-left: 10%;
                     box-shadow: 5px 5px 5px $shadow_colour;
                     border-bottom: solid 1px $col1;
                     border-right: solid 1px $col1;
@@ -134,12 +135,31 @@ body
 
                   .missing
                   {
-                    height: 8em;
+                    height: 7em;
                     vertical-align: middle;
                     text-align: center;
                     color: $plainwhite;
                     text-shadow: 0px 0px 1px $shadow_colour;
                     background: $plainwhite;
+                  }
+                }
+              }
+
+              &.current
+              {
+                .art
+                {
+                  img, .missing
+                  {
+                    width: 100%;
+                    margin-left: 0%;
+                    border-right: $col2orig solid 1px;
+                    border-bottom: $col2orig solid 1px;
+                  }
+
+                  .missing
+                  {
+                    height: 8em;
                   }
                 }
               }
@@ -250,6 +270,8 @@ body
                   text-align: right;
                   color: $plainwhite;
                   content: counter(plays);
+                  background: linear-gradient(to right, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.0), $glass, $glass, $seethru);
+                  border-radius: 2em 2em 2em 2em;
                 }
               }
 
