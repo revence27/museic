@@ -3,7 +3,7 @@
   Latest Tracks
 %table.songlist
   %tbody
-    - @plays.each do |play|
+    - @plays.each_with_index do |play, plix|
       %tr
         %td.first
           .art
@@ -19,8 +19,11 @@
             .runtime
               = play.seconds.divmod(60).map {|x| %[00000#{x}][-2 .. -1]}.join(':')
           .time
-            =  time_ago_in_words play.last_play.localtime
-            ago
+            - if plix.zero? then
+              ▷ Now playing
+            - else
+              =  time_ago_in_words play.last_play.localtime
+              ago
           .autres
             .artist
               = play.artist
@@ -29,3 +32,6 @@
               - if play.year > 1900 then
                 .albumyear
                   = play.year
+            - if play.copyright then
+              .copywrong
+                = play.copyright

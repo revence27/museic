@@ -95,9 +95,9 @@ class SequentialSource
     secs    = 0
     begin
       Mp3Info.open thepath do |mi|
-        tag = {title: mi.tag.title || tag[:title], artist: mi.tag.artist || tag[:artist], album: mi.tag.album || tag[:album], year: mi.tag.year || tag[:year]}
-        thepics =
-          begin
+        tag = {title: mi.tag.title || tag[:title], artist: mi.tag.artist || tag[:artist], album: mi.tag.album || tag[:album], year: mi.tag.year || tag[:year], copyright: (mi.tag.copyright rescue nil)}
+        thepics, thecop =
+          [begin
             mi.tag2.pictures
           rescue Exception => e
             apix  = mi.tag2.APIC
@@ -114,7 +114,14 @@ class SequentialSource
               $stderr.puts "\nWhat image tags are in #{thepath}?"
               []
             end
-          end
+          end,
+          begin
+              mi.tag2.TCOP || mi.tag2.WCOP || nil
+          rescue Exception => e
+              $stderr.puts "\nWhat image tags are in #{thepath}?"
+              nil
+          end]
+        tag[:copyright] ||= thecop
         unless thepics.length.zero? then
           thepics.each do |desc, dat|
             pic_ct  ||= {'jpg' => 'image/jpeg', 'png' => 'image/png'}[desc.force_encoding('UTF-8').split('.').last.downcase]
@@ -147,6 +154,7 @@ class SequentialSource
       title:        tag[:title].force_encoding('UTF-8'),
       artist:       tag[:artist].force_encoding('UTF-8'),
       album:        tag[:album].force_encoding('UTF-8'),
+      copyright:    tag[:copyright],
       year:         tag[:year].to_i,
       sleeve_sha1:  slvsha,
       # sleeve:     pic,

@@ -5,11 +5,11 @@
 //  @import url('http://fonts.googleapis.com/css?family=Cutive+Mono|Lora:400,700,400italic,700italic|Russo+One|Abril+Fatface|Audiowide');
 @import url('http://fonts.googleapis.com/css?family=Cabin|Audiowide|Cuprum|Fjalla+One|Play&subset=latin,latin-ext');
 
-$f1: "Play";
+$f1: "Play", "Alegreya SC";
 $f2: "Audiowide", $f1;
-$f3: "Cuprum", $f2;
-$f4: "Cabin", $f3;
-$f5: "Fjalla One", $f4;
+$f3: "Cuprum", "Alegreya", $f2;
+$f4: "Cabin", "Alegreya Sans", $f3;
+$f5: "Fjalla One", "Alegreya Sans SC", $f4;
 
 $col1:        rgb(0, 0, 0);
 $col2orig:    rgb(182, 59, 50);
@@ -17,10 +17,14 @@ $col2:        rgba(182, 59, 50, 0.5);
 $col3orig:    rgb(28, 43, 124);
 $col3:        rgba(28, 43, 124, 0.7);
 $tomoe_river: rgba(255, 255, 255, 0.8);
+$seethru: rgba(255, 255, 255, 0.3);
+$glass: rgba(255, 255, 255, 0.125);
+$moleskine: rgba(255, 255, 255, 0.95);
 
 $shadow_offset: -0.1em;
 $shadow_scatter: 0.125em;
 $shadow_colour: lighten($col1, 40%);
+$plainwhite: rgb(255, 255, 255);
 $plainwhite: rgb(255, 255, 255);
 
 body
@@ -44,7 +48,8 @@ body
 
   #main
   {
-    background: $tomoe_river;
+    //  background: linear-gradient(to right, $seethru, $tomoe_river, $moleskine, $moleskine, $tomoe_river, $seethru);
+    background: radial-gradient(circle, $moleskine, $tomoe_river, $seethru) fixed center no-repeat;
     border-radius: 3em 3em 3em 3em;
 
     #header
@@ -206,6 +211,11 @@ body
                       font-family: $f4;
                       color: $col3orig;
                     }
+                  }
+
+                  .copywrong
+                  {
+                    font-size: 70%;
                   }
 
                   .album
