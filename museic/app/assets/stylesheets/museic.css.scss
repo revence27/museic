@@ -2,14 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-//  @import url('http://fonts.googleapis.com/css?family=Cutive+Mono|Lora:400,700,400italic,700italic|Russo+One|Abril+Fatface|Audiowide');
-@import url('http://fonts.googleapis.com/css?family=Cabin|Audiowide|Cuprum|Fjalla+One|Play&subset=latin,latin-ext');
+//  @import url('http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900|PT+Sans:400,700|Patua+One|Bree+Serif&subset=latin,latin-ext');
+@import url('http://fonts.googleapis.com/css?family=Russo+One|Audiowide|Lato:400,700,900|Open+Sans:400,600,700,800|Roboto:400,500,700,900&subset=latin,latin-ext');
 
-$f1: "Play", "Alegreya SC";
+$f1: "Lato", "Alegreya SC";
 $f2: "Audiowide", $f1;
-$f3: "Cuprum", "Alegreya", $f2;
-$f4: "Cabin", "Alegreya Sans", $f3;
-$f5: "Fjalla One", "Alegreya Sans SC", $f4;
+$f3: "Open Sans", "Alegreya", $f2;
+$f4: "Roboto", "Alegreya Sans", $f3;
+$f5: "Russo One", "Alegreya Sans SC", $f4;
 
 $col1:        rgb(0, 0, 0);
 $col2orig:    rgb(182, 59, 50);
@@ -327,7 +327,7 @@ body
                       padding-left: 1em;
                       font-size: 60%;
                       font-family: $f4;
-                      color: $col3orig;
+                      color: $col1;
                     }
                   }
 
@@ -351,6 +351,8 @@ body
 
                 &:before
                 {
+                  content: none;
+                        /*
                   position: absolute;
                   font-size: 200%;
                   font-weight: bolder;
@@ -362,6 +364,7 @@ body
                   text-align: right;
                   color: $plainwhite;
                   content: counter(plays);
+                  */
                 }
               }
             }

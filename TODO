@@ -6,3 +6,8 @@
 6.  Mix in streams at specified times.
 7.  Per-track streaming time.
 8.  Establish top streaming speed (loopback).
+9.  file:// URLs, leading to globs (usually *.mp3)
+10. Smaller or no place indicator in first track.
+11. Refresh the fonts.
+12. Front-page counter.
+13. Smaller sizes for album art.

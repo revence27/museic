@@ -10,7 +10,7 @@
       - if pl1 then
         - endtm = pl1.last_play + pl1.seconds
         - curtm = Time.now
-        %meta{'http-equiv' => 'Refresh', content: ([endtm, curtm].max - [endtm, curtm].min).to_i.to_s, url: request.path}/
+        %meta{'http-equiv' => 'Refresh', content: ([[endtm, curtm].max - [endtm, curtm].min, 10].max).to_i.to_s, url: request.path}/
   %body
     #main
       #header
