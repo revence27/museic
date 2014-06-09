@@ -1,6 +1,8 @@
 1.  Select source by URL?
 2.  Text accompaniment.
-3.  Images are hashed and URL'd in.
-4.  Player on the page.
-5.  Rate-limit with kernel.
-6.  Pull architecture for streaming; not push.
+3.  Player on the page.
+4.  Rate-limit with kernel.
+5.  Pull internal architecture for streaming; not push.
+6.  Mix in streams at specified times.
+7.  Per-track streaming time.
+8.  Establish top streaming speed (loopback).
