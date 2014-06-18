@@ -1,13 +1,11 @@
 1.  Select source by URL?
 2.  Text accompaniment.
 3.  Player on the page.
-4.  Rate-limit with kernel.
-5.  Pull internal architecture for streaming; not push.
-6.  Mix in streams at specified times.
-7.  Per-track streaming time.
-8.  Establish top streaming speed (loopback).
-9.  file:// URLs, leading to globs (usually *.mp3)
-10. Smaller or no place indicator in first track.
-11. Refresh the fonts.
-12. Front-page counter.
-13. Smaller sizes for album art.
+4.  Establish top streaming speed (loopback).
+5.  file:// URLs, leading to globs (usually *.mp3)
+6.  Smaller sizes for album art.
+7.  Test solution for first-in-line problem.
+8.  Rate-limiting.
+9.  Playlists, directories, globs, podcasts, programmes.
+10. Periodic schedules.
+11. Schedules on web interface.

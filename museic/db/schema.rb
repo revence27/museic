@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140609050306) do
+ActiveRecord::Schema.define(version: 20140611183729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20140609050306) do
     t.text     "sha1_sig"
     t.text     "content_type"
     t.binary   "rawdata"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "museic_schedules", force: true do |t|
+    t.text     "path"
+    t.datetime "to_run"
+    t.datetime "last_ran"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
