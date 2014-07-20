@@ -13,7 +13,7 @@ require 'thread'
 require 'uri'
 
 BURST_SIZE  = 512_000   # Bytes
-BURST_RATE  = 4.0       # Seconds
+BURST_RATE  = 3.0       # Seconds
 
 Encoding.default_external = 'UTF-8'
 
