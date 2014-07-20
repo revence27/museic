@@ -481,7 +481,7 @@ class Museic
   end
 
   def run
-    sz  = BURST_SIZE
+    sz  = ENV['BURST_SIZE'] or BURST_SIZE
     while true
       conn  = @conns.pop
       @conns << conn
@@ -496,7 +496,7 @@ class Museic
           @dests  <<  @conns.pop unless @conns.empty?
           cursrc  = @srcs[src % @srcs.length]
           dat     = @srcs[src % @srcs.length].fetch(sz)
-          rez     = ManagedConnection.multi_write @dests, dat, BURST_RATE
+          rez     = ManagedConnection.multi_write(@dests, dat, ENV['BURST_RATE'] or BURST_RATE)
           # raise Exception.new(rems.inspect)
           # @dests.each do |dest|
           #   # dest.place(dat, @dests)
