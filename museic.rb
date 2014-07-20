@@ -6,14 +6,14 @@ require 'active_record'
 require 'net/http'
 require 'mp3info'
 require 'pathname'
-require 'rss'
+require 'nokogiri'
 require 'socket'
 require 'taglib'
 require 'thread'
 require 'uri'
 
-BURST_SIZE  = 128000
-BURST_RATE  = 1
+BURST_SIZE  = 512_000   # Bytes
+BURST_RATE  = 4.0       # Seconds
 
 Encoding.default_external = 'UTF-8'
 
@@ -22,6 +22,12 @@ end
 class MuseicSong < ActiveRecord::Base
 end
 class MuseicSchedule < ActiveRecord::Base
+end
+
+class WebResourceParser
+  def parse fch
+    raise Exception.new(%[Do a better job parsing than does RSS::Parser])
+  end
 end
 
 class HTResp
@@ -46,13 +52,20 @@ class ResourceConnection
   end
 
   def self.get url, hds, follow = 10
-    return self.get(URI.parse(url), hds, follow) unless url.is_a?(URI)
+    unless url.is_a?(URI) then
+      return self.get(URI.parse(url), hds, follow) {|s, g| yield(s, g)}
+    end
     sock  = TCPSocket.open(url.hostname, url.port)
     rc    = self.new sock
     rc.get(url, hds) do |got|
       hds['Referer']  = url.to_s
-      return self.get(got['Location'], hds, follow - 1) if got['Location']
-      yield sock, got
+      if got['Location'] then
+        self.get(got['Location'], hds, follow - 1) do |s, g|
+          yield s, g
+        end
+      else
+        yield sock, got
+      end
     end
   end
 
@@ -97,11 +110,47 @@ end
 class ManagedConnection < ResourceConnection
   def initialize conn
     @conn     = conn
-    @bucket   = Queue.new
-    @pauser   = Queue.new
-    @starter  = Queue.new
-    @thd      = Thread.new {broadcast!}
+    # @bucket   = Queue.new
+    # @pauser   = Queue.new
+    # @starter  = Queue.new
+    # @thd      = Thread.new {broadcast!}
     super
+  end
+
+  def self.multi_write mcs, dat, secs = 5.0
+    survs   = mcs
+    tplaced = 0
+    nadd    = 0
+    begt    = Time.now
+    pausing = 0.0
+    while survs.any? and tplaced < dat.length
+      nsurvs  = []
+      gaps    = []
+      places  = []
+      survs.each do |it|
+        begin
+          begin
+            places << it.connection.write_nonblock(dat[tplaced .. -1])
+          rescue IO::WaitWritable => wre
+            gaps  <<  it
+          end
+          nsurvs  <<  it
+        rescue Errno::EPIPE, Exception => ep
+        end
+      end
+      nadd    = places.max || 0
+      if nadd.zero? or gaps.length == survs.length then
+        conns   = gaps.map &:connection
+        tgap    = Time.now - begt
+        ans     = IO.select([], conns, conns, [0.0, secs - tgap].max)
+        pausing = (ans.nil? ? (pausing / 2.0) + secs : 0.0) # Slow linear back-off
+      end
+      gat = [pausing, secs - (Time.now - begt)].max
+      sleep gat
+      tplaced = tplaced + nadd
+      survs   = nsurvs
+    end
+    return survs
   end
 
   def room?
@@ -129,7 +178,11 @@ class ManagedConnection < ResourceConnection
     end
   end
   
-  def write dat
+  def connection
+    @conn
+  end
+
+  def blocking_write dat
     if @bucket.size < BURST_RATE then
       @bucket << dat
     else
@@ -304,7 +357,9 @@ class SequentialSource
   end
 
   def process_latest_podcast src
-    feed    = RSS::Parser.parse(Net::HTTP.get(src))
+    feed    = ResourceConnection.get(src, {}, 10) do |sock, dat|
+      WebResourceParser.parse(sock)
+    end
     title   = feed.channel.title rescue nil
     copyr   = feed.channel.copyright rescue nil
     slvsha  = pull_feed_image feed.channel.image.url rescue nil
@@ -340,9 +395,17 @@ class SequentialSource
     else
       itis  = schs.first
       ital  = URI.parse(itis.path)
-      $stderr.puts %[Schedule: #{itis.path}]
+      # $stderr.puts %[Schedule (#{itis.to_run.localtime}, played at #{Time.now}): #{itis.path}]
       if ital.scheme =~ /^http/ then
-        ans           = process_latest_podcast ital
+        ans           = nil
+        begin
+          ans = process_latest_podcast ital
+        rescue Exception => e
+          $stderr.puts e.inspect, *e.backtrace
+          itis.last_ran = Time.now
+          itis.save
+          return curpath
+        end
         itis.last_ran = Time.now
         itis.save
         ans
@@ -384,7 +447,6 @@ class SequentialSource
           $stderr.puts e.inspect, *e.backtrace
         end
       end
-      $stderr.flush
     end
     got     = @active.read bytes
     if got.to_s.length < bytes then
@@ -433,12 +495,13 @@ class Museic
           end
           @dests  <<  @conns.pop unless @conns.empty?
           cursrc  = @srcs[src % @srcs.length]
-          dat = @srcs[src % @srcs.length].fetch(sz)
-          @dests.each do |dest|
-            # dest.write dat
-            dest.place(dat, @dests)
-            rez << dest
-          end
+          dat     = @srcs[src % @srcs.length].fetch(sz)
+          rez     = ManagedConnection.multi_write @dests, dat, BURST_RATE
+          # raise Exception.new(rems.inspect)
+          # @dests.each do |dest|
+          #   # dest.place(dat, @dests)
+          #   rez << dest
+          # end
           src = src + 1 if dat.length < sz
         rescue Errno::EPIPE => e
           # $stderr.puts e.inspect, *e.backtrace
