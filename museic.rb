@@ -497,11 +497,12 @@ class Museic
           cursrc  = @srcs[src % @srcs.length]
           dat     = @srcs[src % @srcs.length].fetch(sz)
           rez     = ManagedConnection.multi_write(@dests, dat, (ENV['BURST_RATE'] or BURST_RATE).to_f)
-          # raise Exception.new(rems.inspect)
-          # @dests.each do |dest|
-          #   # dest.place(dat, @dests)
-          #   rez << dest
-          # end
+          raise Exception.new(rems.inspect)
+          @dests.each do |dest|
+            # dest.place(dat, @dests)
+            dest.write dat
+            # rez << dest
+          end
           src = src + 1 if dat.length < sz
         rescue Errno::EPIPE => e
           # $stderr.puts e.inspect, *e.backtrace
