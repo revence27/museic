@@ -1,4 +1,4 @@
-#!  /usr/bin/env ruby
+
 # charset: utf-8
 # encoding: utf-8
 
@@ -497,11 +497,11 @@ class Museic
           @dests  <<  @conns.pop unless @conns.empty?
           cursrc  = @srcs[src % @srcs.length]
           dat     = @srcs[src % @srcs.length].fetch(sz)
-          rez     = ManagedConnection.multi_write(@dests, dat, (ENV['BURST_RATE'] or BURST_RATE).to_f)
+          # rez     = ManagedConnection.multi_write(@dests, dat, (ENV['BURST_RATE'] or BURST_RATE).to_f)
           @dests.each do |dest|
             # dest.place(dat, @dests)
             dest.write dat
-            # rez << dest
+            rez << dest
           end
           src = src + 1 if dat.length < sz
         rescue Errno::EPIPE => e
