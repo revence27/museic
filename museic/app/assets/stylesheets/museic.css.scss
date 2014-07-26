@@ -11,7 +11,7 @@ $f3: "Open Sans", "Alegreya", $f2;
 $f4: "Roboto", "Alegreya Sans", $f3;
 $f5: "Russo One", "Alegreya Sans SC", $f4;
 
-$col1:        rgb(0, 0, 0);
+$col1:        rgb(50, 50, 50);
 $col2orig:    rgb(182, 59, 50);
 $col2:        rgba(182, 59, 50, 0.5);
 $light2:      lighten($col2, 50%);
@@ -176,7 +176,8 @@ body
                 {
                   font-family: $f5;
                   font-size: 110%;
-                  text-shadow: 2px 2px 3px $shadow_colour;
+                  text-shadow: 1px 1px 2px $shadow_colour;
+                  font-weight: 100;
 
                   .runtime
                   {

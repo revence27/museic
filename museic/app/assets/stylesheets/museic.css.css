@@ -1,0 +1,224 @@
+@charset "UTF-8";
+@import url("http://fonts.googleapis.com/css?family=Russo+One|Audiowide|Lato:400,700,900|Open+Sans:400,600,700,800|Roboto:400,500,700,900&subset=latin,latin-ext");
+body {
+  font-size: 10pt;
+  color: #323232;
+  font-family: "Lato", "Alegreya SC";
+  background: url("/kora.jpg") fixed center no-repeat; }
+  body sup {
+    font-size: 70%; }
+  body h1, body h2, body h3, body h4, body h5, body h6 {
+    font-family: "Russo One", "Alegreya Sans SC", "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+    text-align: center; }
+  body #main {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3)) fixed center no-repeat;
+    border-radius: 3em 3em 3em 3em; }
+    body #main #header {
+      text-align: right;
+      padding-right: 4em; }
+      body #main #header .nom {
+        font-family: "Audiowide", "Lato", "Alegreya SC";
+        font-size: 500%;
+        text-shadow: -0.1em -0.1em 0.125em #989898;
+        color: rgba(182, 59, 50, 0.5); }
+      body #main #header .tagline {
+        font-family: "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+        font-size: 150%;
+        color: rgba(28, 43, 124, 0.7); }
+    body #main #trunk {
+      font-size: 15pt;
+      width: 50%;
+      margin-left: 25%;
+      text-align: center; }
+      body #main #trunk #propaganda {
+        font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+        text-align: justify;
+        font-size: 75%;
+        column-count: 2;
+        padding: 1em;
+        margin-top: 1em;
+        border: white solid 2px;
+        border-radius: 5px 5px 5px 5px; }
+      body #main #trunk table.songlist {
+        width: 100%;
+        font: inherit; }
+        body #main #trunk table.songlist tbody {
+          counter-reset: plays; }
+          body #main #trunk table.songlist tbody tr {
+            margin-bottom: 5em; }
+            body #main #trunk table.songlist tbody tr.active {
+              margin-bottom: 2em; }
+            body #main #trunk table.songlist tbody tr td {
+              vertical-align: top; }
+              body #main #trunk table.songlist tbody tr td.first, body #main #trunk table.songlist tbody tr td.current {
+                width: 25%;
+                text-align: right; }
+                body #main #trunk table.songlist tbody tr td.first .art img, body #main #trunk table.songlist tbody tr td.first .art .missing, body #main #trunk table.songlist tbody tr td.current .art img, body #main #trunk table.songlist tbody tr td.current .art .missing {
+                  width: 80%;
+                  margin-left: 10%;
+                  box-shadow: 5px 5px 5px #989898;
+                  border-bottom: solid 1px #323232;
+                  border-right: solid 1px #323232;
+                  border-top: solid 1px white;
+                  border-left: solid 1px white; }
+                body #main #trunk table.songlist tbody tr td.first .art .missing, body #main #trunk table.songlist tbody tr td.current .art .missing {
+                  height: 7em;
+                  vertical-align: middle;
+                  text-align: center;
+                  color: white;
+                  text-shadow: 0px 0px 1px #989898;
+                  background: white; }
+              body #main #trunk table.songlist tbody tr td.current .art img, body #main #trunk table.songlist tbody tr td.current .art .missing {
+                width: 100%;
+                margin-left: 0%;
+                border-right: #b63b32 solid 1px;
+                border-bottom: #b63b32 solid 1px; }
+              body #main #trunk table.songlist tbody tr td.current .art .missing {
+                height: 8em; }
+              body #main #trunk table.songlist tbody tr td.second, body #main #trunk table.songlist tbody tr td.playing {
+                width: 75%;
+                text-align: left;
+                padding-left: 1em;
+                font-size: 120%;
+                counter-increment: plays; }
+                body #main #trunk table.songlist tbody tr td.second .title, body #main #trunk table.songlist tbody tr td.playing .title {
+                  font-family: "Russo One", "Alegreya Sans SC", "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                  font-size: 110%;
+                  text-shadow: 1px 1px 2px #989898;
+                  font-weight: 100; }
+                  body #main #trunk table.songlist tbody tr td.second .title .runtime, body #main #trunk table.songlist tbody tr td.playing .title .runtime {
+                    display: inline;
+                    font-size: 50%;
+                    font-family: "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                    vertical-align: sub;
+                    color: #1c2b7c; }
+                body #main #trunk table.songlist tbody tr td.second .time, body #main #trunk table.songlist tbody tr td.playing .time {
+                  font-size: 75%;
+                  font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                  color: #b63b32; }
+                  body #main #trunk table.songlist tbody tr td.second .time:before, body #main #trunk table.songlist tbody tr td.playing .time:before {
+                    content: "♪ ";
+                    color: #1c2b7c; }
+                body #main #trunk table.songlist tbody tr td.second .autres, body #main #trunk table.songlist tbody tr td.playing .autres {
+                  font-family: "Lato", "Alegreya SC";
+                  font-size: 90%;
+                  padding: 1em;
+                  color: #323232; }
+                  body #main #trunk table.songlist tbody tr td.second .autres .artist, body #main #trunk table.songlist tbody tr td.playing .autres .artist {
+                    font-weight: bold; }
+                    body #main #trunk table.songlist tbody tr td.second .autres .artist:before, body #main #trunk table.songlist tbody tr td.playing .autres .artist:before {
+                      content: "Artist: ";
+                      font-size: 50%;
+                      padding-right: 1em;
+                      width: 1cm;
+                      color: #b2b2b2; }
+                  body #main #trunk table.songlist tbody tr td.second .autres .album, body #main #trunk table.songlist tbody tr td.playing .autres .album {
+                    font-size: 90%; }
+                    body #main #trunk table.songlist tbody tr td.second .autres .album .albumyear, body #main #trunk table.songlist tbody tr td.playing .autres .album .albumyear {
+                      display: inline;
+                      vertical-align: middle;
+                      padding-left: 1em;
+                      font-size: 60%;
+                      font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                      color: #1c2b7c; }
+                  body #main #trunk table.songlist tbody tr td.second .autres .copywrong, body #main #trunk table.songlist tbody tr td.playing .autres .copywrong {
+                    font-size: 70%; }
+                  body #main #trunk table.songlist tbody tr td.second .autres .album:before, body #main #trunk table.songlist tbody tr td.playing .autres .album:before {
+                    content: "Album: ";
+                    font-size: 50%;
+                    padding-right: 1em;
+                    width: 1cm;
+                    color: #b2b2b2; }
+                body #main #trunk table.songlist tbody tr td.second:before, body #main #trunk table.songlist tbody tr td.playing:before {
+                  position: absolute;
+                  font-size: 200%;
+                  font-weight: bolder;
+                  font-style: italic;
+                  font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                  z-index: -1;
+                  vertical-align: bottom;
+                  width: 50%;
+                  text-align: right;
+                  color: white;
+                  content: counter(plays);
+                  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.125), rgba(255, 255, 255, 0.125), rgba(255, 255, 255, 0.3));
+                  border-radius: 2em 2em 2em 2em; }
+              body #main #trunk table.songlist tbody tr td.playing {
+                text-align: center;
+                padding: 0px;
+                font-size: 160%;
+                counter-increment: plays;
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0.125), rgba(182, 59, 50, 0.5), rgba(250, 238, 237, 0.5), rgba(250, 238, 237, 0.5), rgba(250, 238, 237, 0.5), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.125), rgba(255, 255, 255, 0.125), rgba(255, 255, 255, 0)); }
+                body #main #trunk table.songlist tbody tr td.playing .title {
+                  font-family: "Russo One", "Alegreya Sans SC", "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                  font-size: 120%;
+                  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.8);
+                  color: #b63b32; }
+                  body #main #trunk table.songlist tbody tr td.playing .title .runtime {
+                    display: inline;
+                    font-size: 50%;
+                    font-family: "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                    vertical-align: sub;
+                    color: white; }
+                body #main #trunk table.songlist tbody tr td.playing .time {
+                  font-size: 75%;
+                  font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                  color: #989898;
+                  font-variant: small-caps; }
+                  body #main #trunk table.songlist tbody tr td.playing .time:before {
+                    content: "▷ ";
+                    color: #1c2b7c; }
+                body #main #trunk table.songlist tbody tr td.playing .autres {
+                  font-family: "Lato", "Alegreya SC";
+                  font-size: 90%;
+                  padding: 1em;
+                  color: #1c2b7c; }
+                  body #main #trunk table.songlist tbody tr td.playing .autres .artist {
+                    font-weight: bold; }
+                    body #main #trunk table.songlist tbody tr td.playing .autres .artist:before {
+                      content: "Artist: ";
+                      font-size: 50%;
+                      padding-right: 1em;
+                      width: 1cm;
+                      color: #b2b2b2; }
+                  body #main #trunk table.songlist tbody tr td.playing .autres .album {
+                    font-size: 90%; }
+                    body #main #trunk table.songlist tbody tr td.playing .autres .album .albumyear {
+                      display: inline;
+                      vertical-align: middle;
+                      padding-left: 1em;
+                      font-size: 60%;
+                      font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC";
+                      color: #323232; }
+                  body #main #trunk table.songlist tbody tr td.playing .autres .copywrong {
+                    font-size: 70%; }
+                  body #main #trunk table.songlist tbody tr td.playing .autres .album:before {
+                    content: "Album: ";
+                    font-size: 50%;
+                    padding-right: 1em;
+                    width: 1cm;
+                    color: #b2b2b2; }
+                body #main #trunk table.songlist tbody tr td.playing:before {
+                  content: none;
+            /*
+      position: absolute;
+      font-size: 200%;
+      font-weight: bolder;
+      font-style: italic;
+      font-family: $f4;
+      z-index: -1;
+      vertical-align: bottom;
+      width: 50%;
+      text-align: right;
+      color: $plainwhite;
+      content: counter(plays);
+      */ }
+    body #main #footer {
+      padding-top: 5em;
+      padding-bottom: 2em;
+      padding-left: 30%;
+      padding-right: 30%;
+      text-align: center;
+      font-size: 70%;
+      font-weight: bold;
+      font-family: "Roboto", "Alegreya Sans", "Open Sans", "Alegreya", "Audiowide", "Lato", "Alegreya SC"; }
