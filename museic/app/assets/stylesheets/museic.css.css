@@ -56,7 +56,7 @@ body {
                 body #main #trunk table.songlist tbody tr td.first .art img, body #main #trunk table.songlist tbody tr td.first .art .missing, body #main #trunk table.songlist tbody tr td.current .art img, body #main #trunk table.songlist tbody tr td.current .art .missing {
                   width: 80%;
                   margin-left: 10%;
-                  box-shadow: 5px 5px 5px #989898;
+                  box-shadow: 5px 5px 5px #323232;
                   border-bottom: solid 1px #323232;
                   border-right: solid 1px #323232;
                   border-top: solid 1px white;

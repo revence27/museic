@@ -21,12 +21,12 @@ $tomoe_river: rgba(255, 255, 255, 0.8);
 $seethru: rgba(255, 255, 255, 0.3);
 $glass: rgba(255, 255, 255, 0.125);
 $moleskine: rgba(255, 255, 255, 0.95);
-
-$shadow_offset: -0.1em;
-$shadow_scatter: 0.125em;
 $shadow_colour: lighten($col1, 40%);
 $plainwhite: rgb(255, 255, 255);
 $plainwhite: rgb(255, 255, 255);
+
+$shadow_offset: -0.1em;
+$shadow_scatter: 0.125em;
 
 body
 {
@@ -126,7 +126,7 @@ body
                   {
                     width: 80%;
                     margin-left: 10%;
-                    box-shadow: 5px 5px 5px $shadow_colour;
+                    box-shadow: 5px 5px 5px $col1;
                     border-bottom: solid 1px $col1;
                     border-right: solid 1px $col1;
                     border-top: solid 1px $plainwhite;

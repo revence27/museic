@@ -35,6 +35,7 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     execjs (2.0.2)
     haml (4.0.5)
       tilt
@@ -53,6 +54,8 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.10.1)
+    node (0.0.2)
+      eventmachine
     pg (0.16.0)
     polyglot (0.3.4)
     rack (1.5.2)
@@ -113,6 +116,7 @@ DEPENDENCIES
   haml
   jbuilder (~> 1.2)
   jquery-rails
+  node
   pg
   rails (= 4.0.1)
   sass-rails (~> 4.0.0)
